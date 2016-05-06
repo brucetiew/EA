@@ -1,0 +1,7 @@
+Pipochan is a simplified version of the original turtle trading strategy.
+1.  It ignores test on last theorethical close trade that checks whether or not an asset is over-cooked, upon which an entry signal shall be igonred.
+2.  It enters and exits trades on the next tick by default when trade signal occurred.  The start shift signal is configurable via parameter DonchianStartShift.
+3.  It ignores transaction costs such as commissions, bid-ask spreads and slippage for simplicity.
+
+Pipochan avoids lower timeframes that are smaller than 1 hrs to avoid dirty data that effect its performance. 
+I had backtested pipochan on USDJPY from Jan 02, 2014 to May 05, 2016 with an initial amount of USD10,000 virtual money and saw it grew to USD59,282.  A whopping 4.9 folds returns in 2.5 years or 1.97 folds/year.  The next version of Pipochan shall incorporate transaction cost to get a more realistic returns.
