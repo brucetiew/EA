@@ -1,9 +1,5 @@
 //+------------------------------------------------------------------+
 //|                                                     Pipochan.mq4 |
-//| Pipochan is a simplied version of the original turtle trading    |
-//| strategy.  The initial version on Pipochan ignores test on last  |
-//| theorethical close trade to check whether or not an asset is     |
-//| over-cooked.  Pipochan2 will address this.                       |
 //|                            https://www.linkedin.com/in/brucetiew |
 //+------------------------------------------------------------------+
 #property copyright "Bruce Tiew"
