@@ -119,33 +119,37 @@ int start()
       if (long_entry_breakout)
       {
          // Create a new position and immediately add 3 pending positions         
-         OpenMarketPosition(OP_BUY, lot_size, SL, TP);
-         OpenPendingOrder(OP_BUYSTOP, Ask + 0.5 * N, lot_size, 0, 0);
-         OpenPendingOrder(OP_BUYSTOP, Ask + 1.0 * N, lot_size, 0, 0);
-         OpenPendingOrder(OP_BUYSTOP, Ask + 1.5 * N, lot_size, 0, 0);
+         if (OpenMarketPosition(OP_BUY, lot_size, SL, TP) != -1)
+         {
+            OpenPendingOrder(OP_BUYSTOP, Ask + 0.5 * N, lot_size, 0, 0);
+            OpenPendingOrder(OP_BUYSTOP, Ask + 1.0 * N, lot_size, 0, 0);
+            OpenPendingOrder(OP_BUYSTOP, Ask + 1.5 * N, lot_size, 0, 0);
          
-         // set lock entry to true to prevent violating maximum position
-         LockEntry = true;
+            // set lock entry to true to prevent violating maximum position
+            LockEntry = true;
          
-         // store First N and First Stop for managing stop when subsequent pending orders became open position
-         FirstN = N;
-         FirstStop = NormalizeDouble(Ask - SL * DecimalPerPip, Digits);
+            // store First N and First Stop for managing stop when subsequent pending orders became open position
+            FirstN = N;
+            FirstStop = NormalizeDouble(Ask - SL * DecimalPerPip, Digits);
+         }
       }
    
       if (short_entry_breakout)
       {
          // Create a new position and immediately add 3 pending positions
-         OpenMarketPosition(OP_SELL, lot_size, SL, TP);
-         OpenPendingOrder(OP_SELLSTOP, Bid - 0.5 * N, lot_size, 0, 0);
-         OpenPendingOrder(OP_SELLSTOP, Bid - 1.0 * N, lot_size, 0, 0);
-         OpenPendingOrder(OP_SELLSTOP, Bid - 1.5 * N, lot_size, 0, 0);
+         if (OpenMarketPosition(OP_SELL, lot_size, SL, TP) != -1)
+         {
+            OpenPendingOrder(OP_SELLSTOP, Bid - 0.5 * N, lot_size, 0, 0);
+            OpenPendingOrder(OP_SELLSTOP, Bid - 1.0 * N, lot_size, 0, 0);
+            OpenPendingOrder(OP_SELLSTOP, Bid - 1.5 * N, lot_size, 0, 0);
          
-         // set lock entry to true to prevent violating maximum position
-         LockEntry = true;
+            // set lock entry to true to prevent violating maximum position
+            LockEntry = true;
          
-         // store First N and First Stop for managing stop when subsequent pending orders became open position
-         FirstN = N;
-         FirstStop = NormalizeDouble(Bid + SL * DecimalPerPip, Digits);
+            // store First N and First Stop for managing stop when subsequent pending orders became open position
+            FirstN = N;
+            FirstStop = NormalizeDouble(Bid + SL * DecimalPerPip, Digits);
+         }
       }
    }
    
@@ -469,7 +473,7 @@ bool CloseOrderPosition(int type)
             PrepareTradingContext();
             if (OrderDelete(currentOrderTicket, clrNONE))
             {
-               Print("Pending ticket %d was successfully deleted", currentOrderTicket);
+               Print("Pending ticket ", currentOrderTicket, " was successfully deleted", currentOrderTicket);
             }
             else
             {
@@ -542,6 +546,7 @@ int OpenMarketPosition(int type, double lot, double SL, double TP)
    if (!validType)
    {
       Print("Invalid order type ", type);
+      return (-1);
    }
    
    if(MarketInfo(symbol,MODE_MARGINREQUIRED) * lot > AccountFreeMargin())
@@ -712,7 +717,7 @@ int OpenMarketPosition(int type, double lot, double SL, double TP)
          
          // Open a market position 
          PrepareTradingContext();
-         ticket = OrderSend(NULL, type, lot, price, slippageInPoint, 0, 0, comment, MagicNumber, 0, arrow_color);
+         ticket = OrderSend(NULL, type, lot, price, slippageInPoint, stop_loss, take_profit, comment, MagicNumber, 0, arrow_color);
       }
    }
    
@@ -890,7 +895,7 @@ pos_status GetPositionStatus()
       order_type = OP_SELL;
       new_stop =  (position_count == 2) ? (stop - 0.5 * N) :
                   (position_count == 3) ? (stop - 1.0 * N) :
-                  (position_count == 4) ? (stop + 1.5 * N) : 0.0;
+                  (position_count == 4) ? (stop - 1.5 * N) : 0.0;
    }
    
    if (new_stop > 0.0)
