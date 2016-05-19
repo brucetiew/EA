@@ -1,0 +1,5 @@
+Pipochan-TS supports volatility-based trailing stop level.  Pipochan-TS manages its volatility-based stop level in two modes, hidden and recorded mode.
+By default, the volatility trailing stop level is hidden, this is particularly useful if you do not want your broker, in particulr market maker, to know
+what your stop level is.  If you like recorded mode, set the input parameter UseHiddenTrailingStop to false.
+
+For hidden function to work, we need to run Pipchan-TS on "Every tick" backtest environment.
