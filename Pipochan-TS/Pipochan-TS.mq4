@@ -7,7 +7,7 @@
 #property version   "1.00"
 #property strict
 
-// Pipochan Paramaters
+// Pipochan Trailing Stop Paramaters
 extern string  Separator1 = "----------Trading Rules Variables -----------";
 extern int     DonchianPeriodsEntry = 20;
 extern int     DonchianPeriodsExit = 10;
@@ -46,7 +46,7 @@ enum pos_status
 };
 
 /**
- * Pipochan initialization
+ * Pipochan Trailing Stop initialization
  */
 int OnInit()
 {
@@ -70,18 +70,18 @@ int OnInit()
 }
 
 /**
- * Pipochan deinitialization
+ * Pipochan Trailing Stop deinitialization
  */
 void OnDeinit(const int reason)
 {
 }
 
 /**
- * Pipochan entry
+ * Pipochan Trailing Stop entry
  */
 int start()
 {
-   // Initialize globals for desiree strategies
+   // Initialize globals for pipochan trailing stop strategies
    double entry_hi = iCustom(NULL, 0, "Donchian Channels", DonchianPeriodsEntry, DonchianStartShift, NumberofBars, DonchianHiBufferIdx, 1);
    double entry_lo = iCustom(NULL, 0, "Donchian Channels", DonchianPeriodsEntry, DonchianStartShift, NumberofBars, DonchianLoBufferIdx, 1);
    double exit_hi = iCustom(NULL, 0, "Donchian Channels", DonchianPeriodsExit, DonchianStartShift, NumberofBars, DonchianHiBufferIdx, 1);

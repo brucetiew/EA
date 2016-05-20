@@ -77,7 +77,7 @@ void OnDeinit(const int reason)
  */
 int start()
 {
-   // Initialize globals for desiree strategies
+   // Initialize globals for pipochan strategies
    double entry_hi = iCustom(NULL, 0, "Donchian Channels", DonchianPeriodsEntry, DonchianStartShift, NumberofBars, DonchianHiBufferIdx, 1);
    double entry_lo = iCustom(NULL, 0, "Donchian Channels", DonchianPeriodsEntry, DonchianStartShift, NumberofBars, DonchianLoBufferIdx, 1);
    double exit_hi = iCustom(NULL, 0, "Donchian Channels", DonchianPeriodsExit, DonchianStartShift, NumberofBars, DonchianHiBufferIdx, 1);
